@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLife Pro - Personalized Fitness & Nutrition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <style>
+        /* CSS Variables for Theming */
+        :root {
+            --primary: #6C63FF;
+            --primary-light: #8A85FF;
+            --secondary: #FF6584;
+            --accent: #36D1DC;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --text: #333333;
+            --text-light: #777777;
+            --background: #FFFFFF;
+            --card-bg: #F8F9FA;
+            --card-shadow: rgba(0, 0, 0, 0.08);
+            --header-height: 70px;
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary: #7D76E3;
+            --primary-light: #9A94FF;
+            --secondary: #FF7B95;
+            --accent: #5CE1E6;
+            --success: #66BB6A;
+            --warning: #FFA726;
+            --text: #F0F0F0;
+            --text-light: #B0B0B0;
+            --background: #121212;
+            --card-bg: #1E1E1E;
+            --card-shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            transition: var(--transition);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: var(--background);
+            box-shadow: 0 2px 10px var(--card-shadow);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Mode Toggle */
+        .mode-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background-color: var(--card-bg);
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            transition: var(--transition);
+        }
+
+        .toggle-circle {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            transition: var(--transition);
+            transform: translateX(0);
+        }
+
+        .dark-mode .toggle-circle {
+            transform: translateX(30px);
+        }
+
+        .mode-toggle i {
+            font-size: 14px;
+            z-index: 1;
+        }
+
+        .mode-toggle .fa-sun {
+            color: #FFA500;
+        }
+
+        .mode-toggle .fa-moon {
+            margin-left: auto;
+            color: #F0F0F0;
+        }
+
+        /* Page Sections */
+        .page {
+            display: none;
+            min-height: calc(100vh - var(--header-height));
+            padding-top: var(--header-height);
+            padding-bottom: 60px;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .hero-content {
+            flex: 1;
+            padding-right: 40px;
+        }
+
+        .hero-animation {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 14px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
+        }
+
+        /* Onboarding Styles */
+        .onboarding-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .onboarding-progress {
+            margin-bottom: 40px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: var(--card-bg);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .onboarding-step {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: 0 10px 30px var(--card-shadow);
+            margin-bottom: 30px;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .onboarding-step.active {
+            display: block;
+        }
+
+        .step-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .step-description {
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--card-shadow);
+            border-radius: 8px;
+            background-color: var(--background);
+            color: var(--text);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+
+        .radio-group, .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .radio-option, .checkbox-option {
+            position: relative;
+        }
+
+        .radio-option input, .checkbox-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-label, .checkbox-label {
+            display: block;
+            padding: 15px;
+            background-color: var(--background);
+            border: 2px solid var(--card-shadow);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .radio-option input:checked + .radio-label,
+        .checkbox-option input:checked + .checkbox-label {
+            border-color: var(--primary);
+            background-color: rgba(108, 99, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .onboarding-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Results Section */
+        .results-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .results-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .result-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 5px 15px var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px var(--card-shadow);
+        }
+
+        .result-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .result-card h3 i {
+            font-size: 1.5rem;
+        }
+
+        .meal-plan {
+            margin-top: 40px;
+        }
+
+        .meal-day {
+            margin-bottom: 30px;
+        }
+
+        .day-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .meal-item {
+            background-color: var(--background);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .meal-time {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Features Section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.5rem;
+            color: var(--text);
+        }
+
+        .section-title span {
+            color: var(--primary);
+        }
+
+        .features {
+            padding: 100px 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 5px 15px var(--card-shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--card-shadow);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+        }
+
+        /* Dashboard Section */
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 5px 15px var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px var(--card-shadow);
+        }
+
+        .dashboard-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .dashboard-card h3 i {
+            font-size: 1.5rem;
+        }
+
+        .progress-circle {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .circle-bg {
+            fill: none;
+            stroke: var(--card-shadow);
+            stroke-width: 3.8;
+        }
+
+        .circle {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 3.8;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dasharray 0.5s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .progress-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .progress-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--card-shadow);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-icon {
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--card-bg);
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background-color: var(--background);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--text);
+                cursor: pointer;
+            }
+
+            .onboarding-step {
+                padding: 30px 20px;
+            }
+
+            .radio-group, .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>FitLife Pro</span>
+            </div>
+            
+            <nav class="nav-links">
+                <a href="#" class="nav-link active" data-page="home">Home</a>
+                <a href="#" class="nav-link" data-page="onboarding">Let's Get Fit</a>
+                <a href="#" class="nav-link" data-page="dashboard">Dashboard</a>
+                <a href="#" class="nav-link" data-page="nutrition">Nutrition</a>
+                <a href="#" class="nav-link" data-page="progress">Progress</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="mode-toggle" id="modeToggle">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                    <div class="toggle-circle"></div>
+                </div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <section id="home" class="page active">
+        <div class="hero">
+            <div class="container" style="display: flex; align-items: center;">
+                <div class="hero-content fade-in">
+                    <h1>Your Personalized Fitness Journey Starts Here</h1>
+                    <p>FitLife Pro combines cutting-edge technology with personalized plans to help you achieve your unique fitness goals. Get custom workout and nutrition plans based on your lifestyle.</p>
+                    <a href="#" class="cta-button pulse" data-page="onboarding">Start Your Journey</a>
+                </div>
+                <div class="hero-animation fade-in">
+                    <lottie-player 
+                        src="https://assets2.lottiefiles.com/packages/lf20_uz5duqwr.json" 
+                        background="transparent" 
+                        speed="1" 
+                        style="width: 100%; max-width: 500px; height: auto;" 
+                        loop 
+                        autoplay>
+                    </lottie-player>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Why Choose <span>FitLife Pro</span></h2>
+                <div class="features-grid">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <h3>Personalized Plans</h3>
+                        <p>Get workout and nutrition plans tailored to your body type, goals, and lifestyle.</p>
+                    </div>
+                    
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-apple-alt"></i>
+                        </div>
+                        <h3>Smart Nutrition</h3>
+                        <p>Custom meal plans based on dietary preferences, restrictions, and health conditions.</p>
+                    </div>
+                    
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Progress Tracking</h3>
+                        <p>Monitor your progress with detailed analytics and adjust your plan as needed.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Onboarding Page -->
+    <section id="onboarding" class="page">
+        <div class="container onboarding-container">
+            <div class="onboarding-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                
+            </div>
+
+            <!-- Step 1: Basic Information -->
+            <div class="onboarding-step active" id="step1">
+                <h2 class="step-title">Tell Us About Yourself</h2>
+                <p class="step-description">We'll use this information to create your personalized fitness plan.</p>
+                
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" class="form-control" placeholder="Enter your age">
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="male" name="gender" value="male">
+                            <label for="male" class="radio-label">Male</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="female" name="gender" value="female">
+                            <label for="female" class="radio-label">Female</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="other" name="gender" value="other">
+                            <label for="other" class="radio-label">Other</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="height">Height (cm)</label>
+                    <input type="number" id="height" class="form-control" placeholder="Enter your height in cm">
+                </div>
+                
+                <div class="form-group">
+                    <label for="weight">Weight (kg)</label>
+                    <input type="number" id="weight" class="form-control" placeholder="Enter your weight in kg">
+                </div>
+                
+                <div class="onboarding-actions">
+                    <button class="btn btn-outline" disabled>Previous</button>
+                    <button class="btn btn-primary" onclick="nextStep(1)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Fitness Goals -->
+            <div class="onboarding-step" id="step2">
+                <h2 class="step-title">What Are Your Fitness Goals?</h2>
+                <p class="step-description">Select your primary fitness objectives.</p>
+                
+                <div class="form-group">
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="weightLoss" name="goal" value="weightLoss">
+                            <label for="weightLoss" class="radio-label">
+                                <i class="fas fa-weight"></i>
+                                <div>Weight Loss</div>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="muscleGain" name="goal" value="muscleGain">
+                            <label for="muscleGain" class="radio-label">
+                                <i class="fas fa-dumbbell"></i>
+                                <div>Muscle Gain</div>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="maintenance" name="goal" value="maintenance">
+                            <label for="maintenance" class="radio-label">
+                                <i class="fas fa-balance-scale"></i>
+                                <div>Maintain Weight</div>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="endurance" name="goal" value="endurance">
+                            <label for="endurance" class="radio-label">
+                                <i class="fas fa-running"></i>
+                                <div>Improve Endurance</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="onboarding-actions">
+                    <button class="btn btn-outline" onclick="prevStep(2)">Previous</button>
+                    <button class="btn btn-primary" onclick="nextStep(2)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Activity Level -->
+            <div class="onboarding-step" id="step3">
+                <h2 class="step-title">How Active Are You?</h2>
+                <p class="step-description">Select your current activity level to calculate your calorie needs.</p>
+                
+                <div class="form-group">
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="sedentary" name="activity" value="sedentary">
+                            <label for="sedentary" class="radio-label">
+                                <i class="fas fa-couch"></i>
+                                <div>Sedentary</div>
+                                <small>Little to no exercise</small>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="light" name="activity" value="light">
+                            <label for="light" class="radio-label">
+                                <i class="fas fa-walking"></i>
+                                <div>Lightly Active</div>
+                                <small>Light exercise 1-3 days/week</small>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="moderate" name="activity" value="moderate">
+                            <label for="moderate" class="radio-label">
+                                <i class="fas fa-running"></i>
+                                <div>Moderately Active</div>
+                                <small>Moderate exercise 3-5 days/week</small>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="veryActive" name="activity" value="veryActive">
+                            <label for="veryActive" class="radio-label">
+                                <i class="fas fa-bicycle"></i>
+                                <div>Very Active</div>
+                                <small>Hard exercise 6-7 days/week</small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="onboarding-actions">
+                    <button class="btn btn-outline" onclick="prevStep(3)">Previous</button>
+                    <button class="btn btn-primary" onclick="nextStep(3)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Dietary Preferences -->
+            <div class="onboarding-step" id="step4">
+                <h2 class="step-title">Dietary Preferences & Restrictions</h2>
+                <p class="step-description">Tell us about your eating habits and any dietary restrictions.</p>
+                
+                <div class="form-group">
+                    <label>Diet Type</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="balanced" name="diet" value="balanced">
+                            <label for="balanced" class="radio-label">Balanced</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="vegetarian" name="diet" value="vegetarian">
+                            <label for="vegetarian" class="radio-label">Vegetarian</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="vegan" name="diet" value="vegan">
+                            <label for="vegan" class="radio-label">Vegan</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="keto" name="diet" value="keto">
+                            <label for="keto" class="radio-label">Keto</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="paleo" name="diet" value="paleo">
+                            <label for="paleo" class="radio-label">Paleo</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="mediterranean" name="diet" value="mediterranean">
+                            <label for="mediterranean" class="radio-label">Mediterranean</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Allergies & Restrictions</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="gluten" name="restrictions" value="gluten">
+                            <label for="gluten" class="checkbox-label">Gluten-Free</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="dairy" name="restrictions" value="dairy">
+                            <label for="dairy" class="checkbox-label">Dairy-Free</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="nuts" name="restrictions" value="nuts">
+                            <label for="nuts" class="checkbox-label">Nut-Free</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="seafood" name="restrictions" value="seafood">
+                            <label for="seafood" class="checkbox-label">Seafood-Free</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="eggs" name="restrictions" value="eggs">
+                            <label for="eggs" class="checkbox-label">Egg-Free</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="soy" name="restrictions" value="soy">
+                            <label for="soy" class="checkbox-label">Soy-Free</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="onboarding-actions">
+                    <button class="btn btn-outline" onclick="prevStep(4)">Previous</button>
+                    <button class="btn btn-primary" onclick="nextStep(4)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Health Conditions -->
+            <div class="onboarding-step" id="step5">
+                <h2 class="step-title">Health Information</h2>
+                <p class="step-description">Share any health conditions that might affect your fitness plan (optional).</p>
+                
+                <div class="form-group">
+                    <label for="conditions">Existing Health Conditions</label>
+                    <textarea id="conditions" class="form-control" rows="4" placeholder="e.g., diabetes, hypertension, asthma, joint issues, etc."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="medications">Current Medications</label>
+                    <textarea id="medications" class="form-control" rows="3" placeholder="List any medications you're currently taking"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="injuries">Previous Injuries</label>
+                    <textarea id="injuries" class="form-control" rows="3" placeholder="List any previous injuries that might affect your exercise"></textarea>
+                </div>
+                
+                <div class="onboarding-actions">
+                    <button class="btn btn-outline" onclick="prevStep(5)">Previous</button>
+                    <button class="btn btn-primary" onclick="nextStep(5)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 6: Review & Generate -->
+            <div class="onboarding-step" id="step6">
+                <h2 class="step-title">Review Your Information</h2>
+                <p class="step-description">Confirm your details and generate your personalized fitness plan.</p>
+                
+                <div class="form-group">
+                    <div id="reviewSummary" class="result-card">
+                        <!-- Summary will be generated here -->
+                    </div>
+                </div>
+                
+                <div class="onboarding-actions">
+                    <button class="btn btn-outline" onclick="prevStep(6)">Previous</button>
+                    <button class="btn btn-primary" onclick="generatePlan()">Generate My Plan</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Page -->
+    <section id="results" class="page">
+        <div class="container results-container">
+            <div class="results-header">
+                <h1 class="results-title">Your Personalized Fitness Plan</h1>
+                <p>Based on your profile, we've created a customized plan to help you reach your goals.</p>
+            </div>
+            
+            <div class="results-grid">
+                <div class="result-card">
+                    <h3><i class="fas fa-bullseye"></i> Your Goals</h3>
+                    <div id="goalSummary">
+                        <!-- Goal summary will be filled by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <h3><i class="fas fa-fire"></i> Daily Calorie Target</h3>
+                    <div id="calorieTarget">
+                        <!-- Calorie target will be filled by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <h3><i class="fas fa-dumbbell"></i> Recommended Workouts</h3>
+                    <div id="workoutPlan">
+                        <!-- Workout plan will be filled by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="meal-plan">
+                <h2 class="section-title">Your <span>7-Day Meal Plan</span></h2>
+                <div id="mealPlanDetails">
+                    <!-- Meal plan will be filled by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="onboarding-actions" style="justify-content: center; margin-top: 40px;">
+                <button class="btn btn-primary" data-page="dashboard">Go to Dashboard</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Page -->
+    <section id="dashboard" class="page">
+        <div class="container dashboard-container">
+            <h2 class="section-title">Your Fitness <span>Dashboard</span></h2>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-fire"></i> Calories Burned</h3>
+                    <div class="progress-circle">
+                        <svg width="120" height="120" viewBox="0 0 120 120">
+                            <circle class="circle-bg" cx="60" cy="60" r="54"></circle>
+                            <circle class="circle" cx="60" cy="60" r="54" stroke-dasharray="339.292" stroke-dashoffset="203.575"></circle>
+                        </svg>
+                        <div class="progress-text">
+                            <div class="progress-value">720</div>
+                            <div class="progress-label">of 1200 kcal</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-shoe-prints"></i> Steps Today</h3>
+                    <div class="progress-circle">
+                        <svg width="120" height="120" viewBox="0 0 120 120">
+                            <circle class="circle-bg" cx="60" cy="60" r="54"></circle>
+                            <circle class="circle" cx="60" cy="60" r="54" stroke-dasharray="339.292" stroke-dashoffset="67.8584"></circle>
+                        </svg>
+                        <div class="progress-text">
+                            <div class="progress-value">8,542</div>
+                            <div class="progress-label">of 10,000 steps</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-heartbeat"></i> Heart Rate</h3>
+                    <div style="text-align: center; padding: 20px 0;">
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary);">72</div>
+                        <div style="color: var(--text-light);">bpm (resting)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-card">
+                <h3><i class="fas fa-tasks"></i> Today's Activities</h3>
+                <ul class="activity-list" id="activityList">
+                    <!-- Activities will be populated by JavaScript -->
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FitLife Pro</h3>
+                    <p>The modern fitness tracker that combines functionality with beautiful design.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">Updates</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Webinars</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 FitLife Pro. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // User data object to store all information
+        const userData = {
+            personal: {},
+            goals: {},
+            activity: {},
+            diet: {},
+            health: {}
+        };
+
+        // Mode Toggle Functionality
+        const modeToggle = document.getElementById('modeToggle');
+        const body = document.body;
+        
+        // Check for saved theme preference or use OS preference
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            body.classList.add('dark-mode');
+        }
+        
+        modeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Save theme preference
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Page Navigation
+        document.querySelectorAll('.nav-link, .cta-button').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = link.getAttribute('data-page');
+                if (targetPage) {
+                    navigateToPage(targetPage);
+                }
+            });
+        });
+
+        function navigateToPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show target page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`.nav-link[data-page="${pageId}"]`).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Onboarding Steps Navigation
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const currentStepElement = document.getElementById('currentStep');
+            
+            const progressPercentage = (currentStep / totalSteps) * 100;
+            progressFill.style.width = `${progressPercentage}%`;
+            currentStepElement.textContent = currentStep;
+        }
+
+        function nextStep(step) {
+            // Validate current step before proceeding
+            if (!validateStep(step)) {
+                return;
+            }
+            
+            // Save step data
+            saveStepData(step);
+            
+            // Hide current step
+            document.getElementById(`step${step}`).classList.remove('active');
+            
+            // Show next step
+            currentStep = step + 1;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            
+            // Update progress
+            updateProgress();
+            
+            // If we're on the review step, populate the summary
+            if (currentStep === 6) {
+                populateReviewSummary();
+            }
+        }
+
+        function prevStep(step) {
+            // Hide current step
+            document.getElementById(`step${step}`).classList.remove('active');
+            
+            // Show previous step
+            currentStep = step - 1;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            
+            // Update progress
+            updateProgress();
+        }
+
+        function validateStep(step) {
+            switch(step) {
+                case 1:
+                    const name = document.getElementById('name').value;
+                    const age = document.getElementById('age').value;
+                    const gender = document.querySelector('input[name="gender"]:checked');
+                    const height = document.getElementById('height').value;
+                    const weight = document.getElementById('weight').value;
+                    
+                    if (!name || !age || !gender || !height || !weight) {
+                        alert('Please fill in all fields');
+                        return false;
+                    }
+                    return true;
+                    
+                case 2:
+                    const goal = document.querySelector('input[name="goal"]:checked');
+                    if (!goal) {
+                        alert('Please select a fitness goal');
+                        return false;
+                    }
+                    return true;
+                    
+                case 3:
+                    const activity = document.querySelector('input[name="activity"]:checked');
+                    if (!activity) {
+                        alert('Please select your activity level');
+                        return false;
+                    }
+                    return true;
+                    
+                case 4:
+                    const diet = document.querySelector('input[name="diet"]:checked');
+                    if (!diet) {
+                        alert('Please select a diet type');
+                        return false;
+                    }
+                    return true;
+                    
+                default:
+                    return true;
+            }
+        }
+
+        function saveStepData(step) {
+            switch(step) {
+                case 1:
+                    userData.personal = {
+                        name: document.getElementById('name').value,
+                        age: parseInt(document.getElementById('age').value),
+                        gender: document.querySelector('input[name="gender"]:checked').value,
+                        height: parseInt(document.getElementById('height').value),
+                        weight: parseInt(document.getElementById('weight').value)
+                    };
+                    break;
+                    
+                case 2:
+                    userData.goals = {
+                        primary: document.querySelector('input[name="goal"]:checked').value
+                    };
+                    break;
+                    
+                case 3:
+                    userData.activity = {
+                        level: document.querySelector('input[name="activity"]:checked').value
+                    };
+                    break;
+                    
+                case 4:
+                    const dietType = document.querySelector('input[name="diet"]:checked').value;
+                    const restrictions = Array.from(document.querySelectorAll('input[name="restrictions"]:checked'))
+                        .map(input => input.value);
+                    
+                    userData.diet = {
+                        type: dietType,
+                        restrictions: restrictions
+                    };
+                    break;
+                    
+                case 5:
+                    userData.health = {
+                        conditions: document.getElementById('conditions').value,
+                        medications: document.getElementById('medications').value,
+                        injuries: document.getElementById('injuries').value
+                    };
+                    break;
+            }
+        }
+
+        function populateReviewSummary() {
+            const summaryElement = document.getElementById('reviewSummary');
+            
+            let summaryHTML = `
+                <h4>Personal Information</h4>
+                <p><strong>Name:</strong> ${userData.personal.name}</p>
+                <p><strong>Age:</strong> ${userData.personal.age}</p>
+                <p><strong>Gender:</strong> ${userData.personal.gender}</p>
+                <p><strong>Height:</strong> ${userData.personal.height} cm</p>
+                <p><strong>Weight:</strong> ${userData.personal.weight} kg</p>
+                
+                <h4>Fitness Goals</h4>
+                <p><strong>Primary Goal:</strong> ${formatGoal(userData.goals.primary)}</p>
+                
+                <h4>Activity Level</h4>
+                <p><strong>Level:</strong> ${formatActivityLevel(userData.activity.level)}</p>
+                
+                <h4>Dietary Preferences</h4>
+                <p><strong>Diet Type:</strong> ${formatDietType(userData.diet.type)}</p>
+                <p><strong>Restrictions:</strong> ${userData.diet.restrictions.length > 0 ? userData.diet.restrictions.join(', ') : 'None'}</p>
+            `;
+            
+            if (userData.health.conditions || userData.health.medications || userData.health.injuries) {
+                summaryHTML += `
+                    <h4>Health Information</h4>
+                    ${userData.health.conditions ? `<p><strong>Conditions:</strong> ${userData.health.conditions}</p>` : ''}
+                    ${userData.health.medications ? `<p><strong>Medications:</strong> ${userData.health.medications}</p>` : ''}
+                    ${userData.health.injuries ? `<p><strong>Injuries:</strong> ${userData.health.injuries}</p>` : ''}
+                `;
+            }
+            
+            summaryElement.innerHTML = summaryHTML;
+        }
+
+        function formatGoal(goal) {
+            const goals = {
+                weightLoss: 'Weight Loss',
+                muscleGain: 'Muscle Gain',
+                maintenance: 'Weight Maintenance',
+                endurance: 'Improve Endurance'
+            };
+            return goals[goal] || goal;
+        }
+
+        function formatActivityLevel(level) {
+            const levels = {
+                sedentary: 'Sedentary',
+                light: 'Lightly Active',
+                moderate: 'Moderately Active',
+                veryActive: 'Very Active'
+            };
+            return levels[level] || level;
+        }
+
+        function formatDietType(diet) {
+            const diets = {
+                balanced: 'Balanced',
+                vegetarian: 'Vegetarian',
+                vegan: 'Vegan',
+                keto: 'Keto',
+                paleo: 'Paleo',
+                mediterranean: 'Mediterranean'
+            };
+            return diets[diet] || diet;
+        }
+
+        function generatePlan() {
+            // Calculate BMI
+            const heightInMeters = userData.personal.height / 100;
+            const bmi = userData.personal.weight / (heightInMeters * heightInMeters);
+            
+            // Calculate BMR (Basal Metabolic Rate)
+            let bmr;
+            if (userData.personal.gender === 'male') {
+                bmr = 10 * userData.personal.weight + 6.25 * userData.personal.height - 5 * userData.personal.age + 5;
+            } else {
+                bmr = 10 * userData.personal.weight + 6.25 * userData.personal.height - 5 * userData.personal.age - 161;
+            }
+            
+            // Calculate TDEE (Total Daily Energy Expenditure) based on activity level
+            const activityMultipliers = {
+                sedentary: 1.2,
+                light: 1.375,
+                moderate: 1.55,
+                veryActive: 1.725
+            };
+            
+            const tdee = bmr * activityMultipliers[userData.activity.level];
+            
+            // Adjust calories based on goal
+            let targetCalories;
+            switch(userData.goals.primary) {
+                case 'weightLoss':
+                    targetCalories = tdee - 500;
+                    break;
+                case 'muscleGain':
+                    targetCalories = tdee + 300;
+                    break;
+                case 'endurance':
+                    targetCalories = tdee + 200;
+                    break;
+                default: // maintenance
+                    targetCalories = tdee;
+            }
+            
+            // Generate workout plan based on goals
+            let workoutPlan = '';
+            switch(userData.goals.primary) {
+                case 'weightLoss':
+                    workoutPlan = `
+                        <p><strong>Cardio Focus:</strong> 4-5 days per week</p>
+                        <p><strong>Strength Training:</strong> 2-3 days per week</p>
+                        <p><strong>Recommended:</strong> HIIT workouts, running, cycling, swimming</p>
+                        <p><strong>Weekly Goal:</strong> 300+ minutes of moderate activity</p>
+                    `;
+                    break;
+                case 'muscleGain':
+                    workoutPlan = `
+                        <p><strong>Strength Focus:</strong> 4-5 days per week</p>
+                        <p><strong>Cardio:</strong> 2-3 days per week (moderate)</p>
+                        <p><strong>Recommended:</strong> Weight training, resistance exercises</p>
+                        <p><strong>Weekly Goal:</strong> Progressive overload with proper form</p>
+                    `;
+                    break;
+                case 'endurance':
+                    workoutPlan = `
+                        <p><strong>Endurance Focus:</strong> 5-6 days per week</p>
+                        <p><strong>Strength:</strong> 2 days per week (maintenance)</p>
+                        <p><strong>Recommended:</strong> Running, cycling, swimming, rowing</p>
+                        <p><strong>Weekly Goal:</strong> Gradually increase duration and intensity</p>
+                    `;
+                    break;
+                default: // maintenance
+                    workoutPlan = `
+                        <p><strong>Balanced Approach:</strong> 3-4 days per week</p>
+                        <p><strong>Mix of cardio and strength</strong></p>
+                        <p><strong>Recommended:</strong> Variety of activities you enjoy</p>
+                        <p><strong>Weekly Goal:</strong> 150+ minutes of moderate activity</p>
+                    `;
+            }
+            
+            // Generate meal plan based on diet type and restrictions
+            const mealPlan = generateMealPlan(userData.diet.type, userData.diet.restrictions, targetCalories);
+            
+            // Save the generated plan to userData
+            userData.plan = {
+                bmi: bmi.toFixed(1),
+                bmr: Math.round(bmr),
+                tdee: Math.round(tdee),
+                targetCalories: Math.round(targetCalories),
+                workoutPlan: workoutPlan,
+                mealPlan: mealPlan
+            };
+            
+            // Populate results page
+            document.getElementById('goalSummary').innerHTML = `
+                <p><strong>Primary Goal:</strong> ${formatGoal(userData.goals.primary)}</p>
+                <p><strong>BMI:</strong> ${userData.plan.bmi} (${getBMICategory(userData.plan.bmi)})</p>
+                <p><strong>Activity Level:</strong> ${formatActivityLevel(userData.activity.level)}</p>
+            `;
+            
+            document.getElementById('calorieTarget').innerHTML = `
+                <p><strong>Daily Target:</strong> ${userData.plan.targetCalories} calories</p>
+                <p><strong>Basal Metabolic Rate:</strong> ${userData.plan.bmr} calories</p>
+                <p><strong>Maintenance Calories:</strong> ${userData.plan.tdee} calories</p>
+            `;
+            
+            document.getElementById('workoutPlan').innerHTML = userData.plan.workoutPlan;
+            document.getElementById('mealPlanDetails').innerHTML = userData.plan.mealPlan;
+            
+            // Navigate to results page
+            navigateToPage('results');
+            
+            // Also populate dashboard with user-specific data
+            populateDashboard();
+        }
+
+        function getBMICategory(bmi) {
+            bmi = parseFloat(bmi);
+            if (bmi < 18.5) return 'Underweight';
+            if (bmi < 25) return 'Normal weight';
+            if (bmi < 30) return 'Overweight';
+            return 'Obese';
+        }
+
+        function generateMealPlan(dietType, restrictions, calories) {
+            // This is a simplified meal plan generator
+            // In a real app, this would be much more detailed and personalized
+            
+            let mealPlanHTML = '';
+            
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            
+            days.forEach(day => {
+                mealPlanHTML += `
+                    <div class="meal-day">
+                        <h3 class="day-title">${day}</h3>
+                        <div class="meal-item">
+                            <span class="meal-time">Breakfast</span>
+                            <span>${getMealSuggestion('breakfast', dietType, restrictions)}</span>
+                        </div>
+                        <div class="meal-item">
+                            <span class="meal-time">Lunch</span>
+                            <span>${getMealSuggestion('lunch', dietType, restrictions)}</span>
+                        </div>
+                        <div class="meal-item">
+                            <span class="meal-time">Dinner</span>
+                            <span>${getMealSuggestion('dinner', dietType, restrictions)}</span>
+                        </div>
+                        <div class="meal-item">
+                            <span class="meal-time">Snacks</span>
+                            <span>${getMealSuggestion('snack', dietType, restrictions)}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            return mealPlanHTML;
+        }
+
+        function getMealSuggestion(mealType, dietType, restrictions) {
+            // Simplified meal suggestions based on diet type
+            const meals = {
+                balanced: {
+                    breakfast: 'Oatmeal with fruits and nuts',
+                    lunch: 'Grilled chicken salad with olive oil dressing',
+                    dinner: 'Salmon with quinoa and steamed vegetables',
+                    snack: 'Greek yogurt with honey'
+                },
+                vegetarian: {
+                    breakfast: 'Vegetable omelette with whole grain toast',
+                    lunch: 'Quinoa bowl with roasted vegetables and tahini',
+                    dinner: 'Lentil curry with brown rice',
+                    snack: 'Apple with almond butter'
+                },
+                vegan: {
+                    breakfast: 'Smoothie bowl with berries and seeds',
+                    lunch: 'Chickpea salad sandwich with side salad',
+                    dinner: 'Tofu stir-fry with brown rice',
+                    snack: 'Hummus with vegetable sticks'
+                },
+                keto: {
+                    breakfast: 'Scrambled eggs with avocado and bacon',
+                    lunch: 'Cauliflower crust pizza with vegetables',
+                    dinner: 'Zucchini noodles with pesto and chicken',
+                    snack: 'Cheese slices with nuts'
+                },
+                paleo: {
+                    breakfast: 'Sweet potato hash with eggs and vegetables',
+                    lunch: 'Large salad with grilled chicken and olive oil',
+                    dinner: 'Baked salmon with asparagus and sweet potato',
+                    snack: 'Hard-boiled eggs and carrot sticks'
+                },
+                mediterranean: {
+                    breakfast: 'Greek yogurt with honey and walnuts',
+                    lunch: 'Mediterranean quinoa salad with feta',
+                    dinner: 'Grilled fish with roasted vegetables',
+                    snack: 'Olives and whole grain crackers'
+                }
+            };
+            
+            return meals[dietType] ? meals[dietType][mealType] : 'Custom meal based on your preferences';
+        }
+
+        function populateDashboard() {
+            // Populate activity list based on user's goals
+            const activityList = document.getElementById('activityList');
+            let activitiesHTML = '';
+            
+            switch(userData.goals.primary) {
+                case 'weightLoss':
+                    activitiesHTML = `
+                        <li class="activity-item">
+                            <div class="activity-name">
+                                <div class="activity-icon"><i class="fas fa-running"></i></div>
+                                <span>30-min Morning Walk</span>
+                            </div>
+                            <span>Completed</span>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-name">
+                                <div class="activity-icon"><i class="fas fa-dumbbell"></i></div>
+                                <span>Full Body Strength</span>
+                            </div>
+                            <span>Pending</span>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-name">
+                                <div class="activity-icon"><i class="fas fa-bicycle"></i></div>
+                                <span>Evening Cycling</span>
+                            </div>
+                            <span>Pending</span>
+                        </li>
+                    `;
+                    break;
+                    
+                case 'muscleGain':
+                    activitiesHTML = `
+                        <li class="activity-item">
+                            <div class="activity-name">
+                                <div class="activity-icon"><i class="fas fa-dumbbell"></i></div>
+                                <span>Chest & Triceps Workout</span>
+                            </div>
+                            <span>Completed</span>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-name">
+                                <div class="activity-icon"><i class="fas fa-running"></i></div>
+                                <span>20-min Light Cardio</span>
+                            </div>
+                            <span>Pending</span>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-name">
+                                <div class="activity-icon"><i class="fas fa-utensils"></i></div>
+                                <span>Post-workout Protein</span>
+                            </div>
+                            <span>Pending</span>
+                        </li>
+                    `;
+                    break;
+                    
+                default:
+                    activitiesHTML = `
+                        <li class="activity-item">
+                            <div class="activity-name">
+                                <div class="activity-icon"><i class="fas fa-walking"></i></div>
+                                <span>10,000 Steps</span>
+                            </div>
+                            <span>8,542/10,000</span>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-name">
+                                <div class="activity-icon"><i class="fas fa-dumbbell"></i></div>
+                                <span>Full Body Workout</span>
+                            </div>
+                            <span>Pending</span>
+                        </li>
+                        <li class="activity-item">
+                            <div class="activity-name">
+                                <div class="activity-icon"><i class="fas fa-glass-whiskey"></i></div>
+                                <span>Drink 2L Water</span>
+                            </div>
+                            <span>1.2L/2L</span>
+                        </li>
+                    `;
+            }
+            
+            activityList.innerHTML = activitiesHTML;
+        }
+
+        // Scroll Animation
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeInOnScroll = () => {
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', fadeInOnScroll);
+        window.addEventListener('load', fadeInOnScroll);
+
+        // Initialize progress bar
+        updateProgress();
+    </script>
+</body>
+</html>
